@@ -6,8 +6,6 @@ format: html
 editor: visual
 ---
 
-<https://github.com/ZS-25-bit/ENVS-193DS_homework-03.git>
-
 ```{r}
 #| label: Reading in packages
 #| message: false
