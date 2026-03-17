@@ -1,0 +1,19 @@
+---
+title: "Final"
+author: "Zoe Stopfer"
+date: "2026-03-16"
+format: html
+editor: visual
+---
+
+<https://github.com/ZS-25-bit/ENVS-193DS_homework-03.git>
+
+```{r}
+#| label: Reading in packages
+#| message: false
+#adding in packages 
+library(tidyverse) 
+library(here)
+library(flextable)
+library(janitor)
+```
