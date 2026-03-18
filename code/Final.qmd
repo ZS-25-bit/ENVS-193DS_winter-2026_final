@@ -15,6 +15,7 @@ library(here)
 library(flextable)
 library(janitor)
 library(readxl)
+library(MuMIn)
 # reading in data 
 kelp <- read_csv(here(
    "data",
@@ -125,8 +126,57 @@ mopl_clean <- mopl |> # creating new data frame from mopl
 
 ## e. Select the best model
 
-The best model as determined by Akaike's Information Criterion(AIC)
+```{r}
+#| label: models
+
+#model 0: null model
+model0 <- lm(used_bin ~ 1,
+             data = mopl_clean)
+
+# model 1: all predictors
+model1 <- lm(used_bin ~ edgedist + vo_nest,
+             data = mopl_clean)
+
+# model 2: Edge Distance
+model2 <- lm(used_bin ~ edgedist,
+             data = mopl_clean)
+
+# model 3: Visual Obstruction at the nest 
+model3 <- lm(used_bin ~ vo_nest,
+             data = mopl_clean)
+
+```
+
+```{r}
+#| label: AIC
+AICc(
+  model0,
+  model1,
+  model2,
+  model3) |> 
+  arrange(AICc)
+```
+
+The best model as determined by Akaike's Information Criterion(AIC) had the visual obstruction as the predictor and the response as the used_bin ID that included yes or no(1s or 0s) on whether or not there was a nest.
 
 ## f. Check the diagnostics
 
 ## g. Visualize the model predictions
+
+## h. Write a caption for your figure
+
+## i. Calculate model predictions 
+
+## j. Interpret your results 
+
+# Problem 4. Affective and exploratory visualizations 
+
+## a. Comparing visualizations 
+
+## b. Designing an analysis
+
+## c. Check any assumptions and run your analysis
+
+## d. Create a visualization 
+
+## e. Write a caption
