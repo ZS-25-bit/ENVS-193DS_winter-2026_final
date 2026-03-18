@@ -25,6 +25,9 @@ kelp <- read_csv(here(
 mopl <- read_csv(here(
   "data",
   "MOPL_nest-site_selection_Duchardt_et_al._2019.csv"))
+Mood <- read_csv(here(
+  "data",
+  "JJMood4.csv"))
  
 ```
 
@@ -40,7 +43,13 @@ One figure that out coworker could make to accompany the Kruskal-Wallis test is 
 
 ## c. Suggestions for rewriting
 
+In part 1,we retained that the precipitation doesn't predict wetland area( (linear regression, (degrees of freedom) = F-statistic R² =coefficient of determination, p = 0.11, α = significance level).
+
+In part 2, We retained that median flooded wetland area does not differ with the water year classification ( η²= effect size) in median flooded wetland area across water year classification (wet, above normal, below normal, dry, critical drought) (Kruskal-Wallis test, '(degrees of freedom) = H-statistic p = 0.12, α = significance level). I
+
 ## d. Interpretation
+
+One additional variable that could have influenced the flooded area of wetland was the time period. The time period is a categorical variable due to its numeric values. This variable is important because the time period could influence the amount of flooding, how much data is collected, and if it changes the data found with other tie periods.
 
 # Problem 2. Data visualization
 
@@ -68,6 +77,8 @@ kelp_clean <- kelp |> # creating a new data frame
 
 ## b. Understanding the data
 
+The value of fronds in that "quad" in that "transect" is -99999. This value represent how there was no data collected for that particular species and the datasheet was lost as well. This information can be found in the methods tab.
+
 ## c. Visualize the data
 
 ```{r}
@@ -93,6 +104,8 @@ ggplot(data = kelp_clean, # read in data frame from temo_clean
 ```
 
 ## d. Interpretation
+
+Isla Vista has the most variable mean kelp per year. Carpinteria has the least variable mean kelp fronds per year.
 
 # Problem 3: Data analysis
 
@@ -219,18 +232,46 @@ ggpredict(model3, # make predictions
 
 ## j. Interpret your results
 
-"Visual obstruction" and "distance to prairie dog colony edge" interact to predict the likelihood of a Mountain Plover nest site. As "visual obstruction" increases, the probability of a Mountain Plover nest decreases. As "distance to prairie dog colony edge" increases, the probability of a Mountain Plover nest decreases as well. To summarize, as "visual obstruction" increases so does "distance to prairie dog colony edge". The reason between obstruction and probability of Mountain Plover nest site occupancy is that the Mountain Plovers prefer places with empty landscapes and low vegetation to help avoid predictors.Prairie dogs help clear vegetation, so they would want to be closer to prairie dog colonies. At a 95% Confidence Interval( 95%CI: \[0.65, 0.80\]) the predicted probability of nest site occupancy at 0 is 0.73,
+"Visual obstruction" and "distance to prairie dog colony edge" interact to predict the likelihood of a Mountain Plover nest site. As "visual obstruction" increases, the probability of a Mountain Plover nest decreases. As "distance to prairie dog colony edge" increases, the probability of a Mountain Plover nest decreases as well. To summarize, as "visual obstruction" increases so does "distance to prairie dog colony edge". The reason between obstruction and probability of Mountain Plover nest site occupancy is that the Mountain Plovers prefer places with empty landscapes and low vegetation to help avoid predictors.Prairie dogs help clear vegetation, so they would want to be closer to prairie dog colonies. At a 95% Confidence Interval( 95%CI: \[0.65, 0.80\]) the predicted probability of nest site occupancy at 0 is 0.73.
 
 # Problem 4. Affective and exploratory visualizations
 
-## .pa. Comparing visualizations
+## a. Comparing visualizations
 
-My exploratory visualizations is very simple. Ithas the bare bones of "attendace" and "emotion". Compared to my affective visualzation, it includes other contribution factors that could have influse my emotions at the end of the day
+My exploratory visualizations is very simple. It has the bare bones of "attendance" and "emotion". Compared to my affective visualization, it includes other contribution factors that could have influenced my variables, such as studying an exam or being sick. Both visualizations rely on color to help distinguish the emotions. The second figure was more helpful in inspiring my affective visualization. Both visualizations follow the same trends, nothing different. During week 9 I implemented the suggestions to distinguish the days I did or didn't go to jiu jitsu but putting a "aura" around the different items. I also took the suggestion to add something when the there was a reason for not going to jiu jitsu that particular day. I thought both of these were great suggestions to make my data clearer for the reader to understand.
 
 ## b. Designing an analysis
 
+I want to know how two variables relate to/are associated with each other so I think a Spearman correlation would be appropriate. My question would be if attendance of jiu jitsu(predictor and continuous), gives me a more positive mood( response and categorical).
+
 ## c. Check any assumptions and run your analysis
+
+"mood_clean \<- Mood \|\> clean_names() cor.test(mood_clean$attendance,mood_clean$mood_category, \# adding in data frame and columns method = "spearman") \# this spearman test"
+
+The test listed above would have checked my data but because of the way my data frame is set up I am unable to run a proper test since I have no numeric values in all of my data.
 
 ## d. Create a visualization
 
+```{r}
+#| message: false
+mood_clean <- Mood |> 
+  clean_names()
+ggplot(data = mood_clean, # use my_data data frame
+       aes(x = dates, # create x-axis and y-axis
+           y = mood_category,
+           color = mood_category)) + # color mood_category 
+  geom_point() + # adding points
+  labs( x = "Date", # relabelling x, y, title, and color
+        y = "Mood",
+        title = "Mood Throughout Time",
+        color = "Mood Category") +
+  theme_grey() # change theme
+```
+
 ## e. Write a caption
+
+**Figure 2. Mood Throughout Time.** Each dot represents the mood I felt at the end of the day in regards of my attendance of going to jiu jitsu. It is split up into four mood categories: red is HEP( high energy positive), green is HEP( high energy unpleasant), blue is LEP( low energy positive), and purple is LEU( low energy unpleasant).
+
+## f. Write about your results 
+
+My results show that when I attended jiu jitsu, I tend to have a more positive mood/ falls in a positive mood category( HEP/LEP). When I did not, my mood varied but also resulted in more negatives moods ( HEU/LEU).

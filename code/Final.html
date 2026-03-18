@@ -72,6 +72,35 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="Final_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="Final_files/libs/bootstrap/bootstrap-8a90b9f5b4ffc9e7e842c6f615795ee6.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 </head>
 
@@ -128,7 +157,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Annual_Kelp_All_Years_20250903.csv"</span>))</span>
 <span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>mopl <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="fu">here</span>(</span>
 <span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>  <span class="st">"data"</span>,</span>
-<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>  <span class="st">"MOPL_nest-site_selection_Duchardt_et_al._2019.csv"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>  <span class="st">"MOPL_nest-site_selection_Duchardt_et_al._2019.csv"</span>))</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>Mood <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="fu">here</span>(</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>  <span class="st">"data"</span>,</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>  <span class="st">"JJMood4.csv"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <section id="problem-1.-research-writing" class="level1">
 <h1>Problem 1. Research Writing</h1>
@@ -142,9 +174,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="c.-suggestions-for-rewriting" class="level2">
 <h2 class="anchored" data-anchor-id="c.-suggestions-for-rewriting">c.&nbsp;Suggestions for rewriting</h2>
+<p>In part 1,we retained that the precipitation doesn’t predict wetland area( (linear regression, (degrees of freedom) = F-statistic R² =coefficient of determination, p = 0.11, α = significance level).</p>
+<p>In part 2, We retained that median flooded wetland area does not differ with the water year classification ( η²= effect size) in median flooded wetland area across water year classification (wet, above normal, below normal, dry, critical drought) (Kruskal-Wallis test, ’(degrees of freedom) = H-statistic p = 0.12, α = significance level). I</p>
 </section>
 <section id="d.-interpretation" class="level2">
 <h2 class="anchored" data-anchor-id="d.-interpretation">d.&nbsp;Interpretation</h2>
+<p>One additional variable that could have influenced the flooded area of wetland was the time period. The time period is a categorical variable due to its numeric values. This variable is important because the time period could influence the amount of flooding, how much data is collected, and if it changes the data found with other tie periods.</p>
 </section>
 </section>
 <section id="problem-2.-data-visualization" class="level1">
@@ -170,6 +205,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="b.-understanding-the-data" class="level2">
 <h2 class="anchored" data-anchor-id="b.-understanding-the-data">b. Understanding the data</h2>
+<p>The value of fronds in that “quad” in that “transect” is -99999. This value represent how there was no data collected for that particular species and the datasheet was lost as well. This information can be found in the methods tab.</p>
 </section>
 <section id="c.-visualize-the-data" class="level2">
 <h2 class="anchored" data-anchor-id="c.-visualize-the-data">c.&nbsp;Visualize the data</h2>
@@ -203,6 +239,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="d.-interpretation-1" class="level2">
 <h2 class="anchored" data-anchor-id="d.-interpretation-1">d.&nbsp;Interpretation</h2>
+<p>Isla Vista has the most variable mean kelp per year. Carpinteria has the least variable mean kelp fronds per year.</p>
 </section>
 </section>
 <section id="problem-3-data-analysis" class="level1">
@@ -383,25 +420,55 @@ vo_nest | Predicted |     95% CI
 </section>
 <section id="j.-interpret-your-results" class="level2">
 <h2 class="anchored" data-anchor-id="j.-interpret-your-results">j. Interpret your results</h2>
+<p>“Visual obstruction” and “distance to prairie dog colony edge” interact to predict the likelihood of a Mountain Plover nest site. As “visual obstruction” increases, the probability of a Mountain Plover nest decreases. As “distance to prairie dog colony edge” increases, the probability of a Mountain Plover nest decreases as well. To summarize, as “visual obstruction” increases so does “distance to prairie dog colony edge”. The reason between obstruction and probability of Mountain Plover nest site occupancy is that the Mountain Plovers prefer places with empty landscapes and low vegetation to help avoid predictors.Prairie dogs help clear vegetation, so they would want to be closer to prairie dog colonies. At a 95% Confidence Interval( 95%CI: [0.65, 0.80]) the predicted probability of nest site occupancy at 0 is 0.73.</p>
 </section>
 </section>
 <section id="problem-4.-affective-and-exploratory-visualizations" class="level1">
 <h1>Problem 4. Affective and exploratory visualizations</h1>
-<section id="pa.-comparing-visualizations" class="level2">
-<h2 class="anchored" data-anchor-id="pa.-comparing-visualizations">.pa. Comparing visualizations</h2>
-<p>My exploratory visualizations is very simple. Ithas the bare bones of “attendace” and “emotion”. Compared to my affective visualzation, it includes other contribution factors that could have influse my emotions at the end of the day</p>
+<section id="a.-comparing-visualizations" class="level2">
+<h2 class="anchored" data-anchor-id="a.-comparing-visualizations">a. Comparing visualizations</h2>
+<p>My exploratory visualizations is very simple. It has the bare bones of “attendance” and “emotion”. Compared to my affective visualization, it includes other contribution factors that could have influenced my variables, such as studying an exam or being sick. Both visualizations rely on color to help distinguish the emotions. The second figure was more helpful in inspiring my affective visualization. Both visualizations follow the same trends, nothing different. During week 9 I implemented the suggestions to distinguish the days I did or didn’t go to jiu jitsu but putting a “aura” around the different items. I also took the suggestion to add something when the there was a reason for not going to jiu jitsu that particular day. I thought both of these were great suggestions to make my data clearer for the reader to understand.</p>
 </section>
 <section id="b.-designing-an-analysis" class="level2">
 <h2 class="anchored" data-anchor-id="b.-designing-an-analysis">b. Designing an analysis</h2>
+<p>I want to know how two variables relate to/are associated with each other so I think a Spearman correlation would be appropriate. My question would be if attendance of jiu jitsu(predictor and continuous), gives me a more positive mood( response and categorical).</p>
 </section>
 <section id="c.-check-any-assumptions-and-run-your-analysis" class="level2">
 <h2 class="anchored" data-anchor-id="c.-check-any-assumptions-and-run-your-analysis">c.&nbsp;Check any assumptions and run your analysis</h2>
+<p>“mood_clean &lt;- Mood |&gt; clean_names() cor.test(mood_clean<span class="math inline">\(attendance,mood_clean\)</span>mood_category, # adding in data frame and columns method =”spearman”) # this spearman test”</p>
+<p>The test listed above would have checked my data but because of the way my data frame is set up I am unable to run a proper test since I have no numeric values in all of my data.</p>
 </section>
 <section id="d.-create-a-visualization" class="level2">
 <h2 class="anchored" data-anchor-id="d.-create-a-visualization">d.&nbsp;Create a visualization</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>mood_clean <span class="ot">&lt;-</span> Mood <span class="sc">|&gt;</span> </span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">clean_names</span>()</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> mood_clean, <span class="co"># use my_data data frame</span></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>       <span class="fu">aes</span>(<span class="at">x =</span> dates, <span class="co"># create x-axis and y-axis</span></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>           <span class="at">y =</span> mood_category,</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>           <span class="at">color =</span> mood_category)) <span class="sc">+</span> <span class="co"># color mood_category </span></span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span> <span class="co"># adding points</span></span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>( <span class="at">x =</span> <span class="st">"Date"</span>, <span class="co"># relabelling x, y, title, and color</span></span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>        <span class="at">y =</span> <span class="st">"Mood"</span>,</span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a>        <span class="at">title =</span> <span class="st">"Mood Throughout Time"</span>,</span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a>        <span class="at">color =</span> <span class="st">"Mood Category"</span>) <span class="sc">+</span></span>
+<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_grey</span>() <span class="co"># change theme</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Final_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
 </section>
 <section id="e.-write-a-caption" class="level2">
 <h2 class="anchored" data-anchor-id="e.-write-a-caption">e. Write a caption</h2>
+<p><strong>Figure 2. Mood Throughout Time.</strong> Each dot represents the mood I felt at the end of the day in regards of my attendance of going to jiu jitsu. It is split up into four mood categories: red is HEP( high energy positive), green is HEP( high energy unpleasant), blue is LEP( low energy positive), and purple is LEU( low energy unpleasant).</p>
+</section>
+<section id="f.-write-about-your-results" class="level2">
+<h2 class="anchored" data-anchor-id="f.-write-about-your-results">f.&nbsp;Write about your results</h2>
+<p>My results show that when I attended jiu jitsu, I tend to have a more positive mood/ falls in a positive mood category( HEP/LEP). When I did not, my mood varied but also resulted in more negatives moods ( HEU/LEU).</p>
 </section>
 </section>
 
