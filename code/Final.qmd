@@ -14,4 +14,27 @@ library(tidyverse)
 library(here)
 library(flextable)
 library(janitor)
+# reading in data 
+kelp <- read_csv
+  here(
+    "data",
+    "Annual_Kelp_All_Years_20250903.csv")
 ```
+
+# Problem 1. Research Writing
+
+## a. Transparent statistical methods
+
+In part 1, they used a linear regressing test describing a linear relationship between wetland flooding area and precipitation. In part 2, they used a Kruskal-Wallis test since the distribution are the same in the water year classification.
+
+## b. Figure needed
+
+One figure that out coworker could make to accompany the Kruskal-Wallis test is a box plot. The y-axis would represent the wetland flooding area(m^2^ ).The x-axis would represent the water year classification.
+
+## c. Suggestions for rewriting
+
+## d. Interpretation
+
+# Problem 2. Data visualization
+
+## a. Cleaning and Summarizing 
