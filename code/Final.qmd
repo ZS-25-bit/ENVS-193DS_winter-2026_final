@@ -115,12 +115,12 @@ The "distance to prairie dog colony edge" predictor is also a continuous variabl
 ## d. Run the models
 
 ```{r}
-mopl_clean <- mopl |> 
-  clean_names() |> 
-  mutate(used_bin = case_match(id,
+mopl_clean <- mopl |> # creating new data frame from mopl
+  clean_names() |> #cleaaning names with underscores and no caps
+  mutate(used_bin = case_match(id, 
                                "used" ~ "1",
-                               "available" ~ "0")) |> 
-  select(used_bin,edgedist, vo_nest)
+                               "available" ~ "0")) |> # creating a new column to create 1s and 0s from the id column
+  select(used_bin,edgedist, vo_nest) # selecting columns listed 
 ```
 
 ## e. Select the best model
