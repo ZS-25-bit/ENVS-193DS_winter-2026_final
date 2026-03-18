@@ -14,11 +14,12 @@ library(tidyverse)
 library(here)
 library(flextable)
 library(janitor)
+library(readxl)
 # reading in data 
-kelp <- read_csv
-  here(
-    "data",
-    "Annual_Kelp_All_Years_20250903.csv")
+kelp <- read_csv(here(
+   "data",
+    "Annual_Kelp_All_Years_20250903.csv"))
+ 
 ```
 
 # Problem 1. Research Writing
@@ -37,4 +38,51 @@ One figure that out coworker could make to accompany the Kruskal-Wallis test is 
 
 # Problem 2. Data visualization
 
-## a. Cleaning and Summarizing 
+## a. Cleaning and Summarizing
+
+```{r}
+#| label: Clean and summarize data frame
+kelp_clean <- kelp |> # creating a new data frame
+  clean_names() |> #cleaaning names with underscores and no caps
+  filter(site %in% c("IVEE", "NAPL", "CARP")) |> #filter to only have those 3 sites
+  filter(!(date == "2000-09-22" & transect == "6" & quad == "40")) |> # filter rows 
+  mutate(site_name = case_when( # change names and put it into a new column 
+  site == "NAPL" ~ "Naples",
+  site == "IVEE" ~ "Isla Vista",
+  site == "CARP" ~ "Carpinteria")) |> 
+  mutate(site_name = as_factor(site_name), # changes "factor" values 
+       site_name = fct_relevel(site_name, # appear in order of the dataset listed above
+                               "Naples", "Isla Vista", "Carpinteria")) |> 
+  group_by(site_name, year) |> # grouping together site and year
+  summarize(mean_fronds = mean(fronds)) |> # summarize each group down to one row
+  ungroup() # group by variables
+
+
+```
+
+## b. Understanding the data
+
+## c. Visualize the data
+
+```{r}
+#| label: recreating graph
+#| label: ggplot
+ggplot(data = kelp_clean, # read in data frame from temo_clean
+       aes(x = year, # x-axis
+           y = mean_fronds,#y-axis 
+           color = site_name,# color and group each line by site 
+           group = site_name)) + 
+  geom_point() + # adding points
+  geom_line() + # connect lines
+  theme_minimal()+ # changing theme 
+  theme(text = element_text(family = "Georgia")) +  # changing font text
+  theme(legend.position = "right","top") + # move legend to right postions
+  theme(plot.title = element_text(hjust = 0.5))+ # moving title position
+  scale_color_manual(values = c("Naples" = "deeppink3", #add color for each site
+                                "Isla Vista" = "slateblue4",
+                                "Carpinteria" = "seagreen1")) +
+  labs(x = "Year", # rename x, y, title, 
+       y = "Mean kelp fronds per year",
+       color = "Site",
+       title = "Sites vary in mean kelp fronds per year") 
+```
