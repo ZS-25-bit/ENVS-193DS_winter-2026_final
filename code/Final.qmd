@@ -169,26 +169,63 @@ The best model as determined by Akaike's Information Criterion(AIC) had the visu
 
 ```{r}
 dev.off() # reset plotting
-par(mar = c(4, 4, 2, 1)) # change the margins 
+par(mar = c(4, 4, 2, 1))  # change the margins 
 plot(simulateResiduals(model3)) # displaying all the code
 ```
 
 ## g. Visualize the model predictions
 
-```{}
+```{r}
+#| label: creating model
+mod_preds <- ggpredict(model3,
+                       terms = "vo_nest [0:19 by = 1]") # creating new data frame from our model3 dataselt
+
+ggplot(mopl_clean, # creating plot
+       aes(x = vo_nest, # x-axis
+           y = used_bin)) + # y-axis
+  geom_point(size = 3, # adding dots and customizing
+             alpha = 0.4,
+             color = "deeppink3") +
+  geom_ribbon(data = mod_preds, # creating the interval 
+              aes(x = x, # x-axis, y-axis, ymin and y-max, sig level and color
+                  y = predicted,
+                  ymin = conf.low,
+                  ymax = conf.high),
+              alpha = 0.4, 
+              fill = "deeppink3") +
+  geom_line(data = mod_preds, # adding line
+            aes(x = x, # x-axis, y-axis
+                y = predicted),
+            linewidth = 2,# changing width
+            color = "deeppink3") + # changing color
+  theme_minimal() + # changing theme
+  scale_y_continuous(limits = c(0, 1), # changing the y-axis/ defualt scales
+                     breaks = c(0, 1)) + 
+  labs(x = "Visual obstruction", # adding titles 
+       y = "Probability of nest use",
+       title = "Prediction of visual obstruction impact on proability of Mountain Plover nest use")
 ```
 
 ## h. Write a caption for your figure
 
+**Figure 3. Maximum Likelihood Estimation(MLE) for nest use and visual obstruction.** The points at the top of the graph( in the "1"portion) represent that there is a nest. The points at the bottom of the graph (in the "0" portion) represents that there is no nest. The shaded area that follows the line represents the 95% confidence interval around the predictions and the underlying data. The curved line in the middle represents model predictions. Data from: Duchardt, Courtney; Beck, Jeffrey; Augustine, David (2020). Data from: Mountain Plover habitat selection and nest survival in relation to weather variability and spatial attributes of Black-tailed Prairie Dog disturbance \[Dataset\]. Dryad. <https://doi.org/10.5061/dryad.ttdz08kt7>
+
 ## i. Calculate model predictions
+
+```{r}
+ggpredict(model3, # make predictions 
+          terms = "vo_nest [0]")
+```
 
 ## j. Interpret your results
 
+"Visual obstruction" and "distance to prairie dog colony edge" interact to predict the likelihood of a Mountain Plover nest site. As "visual obstruction" increases, the probability of a Mountain Plover nest decreases. As "distance to prairie dog colony edge" increases, the probability of a Mountain Plover nest decreases as well. To summarize, as "visual obstruction" increases so does "distance to prairie dog colony edge". The reason between obstruction and probability of Mountain Plover nest site occupancy is that the Mountain Plovers prefer places with empty landscapes and low vegetation to help avoid predictors.Prairie dogs help clear vegetation, so they would want to be closer to prairie dog colonies. At a 95% Confidence Interval( 95%CI: \[0.65, 0.80\]) the predicted probability of nest site occupancy at 0 is 0.73,
+
 # Problem 4. Affective and exploratory visualizations
 
-## a. Comparing visualizations
+## .pa. Comparing visualizations
 
-In my original functions for
+My exploratory visualizations is very simple. Ithas the bare bones of "attendace" and "emotion". Compared to my affective visualzation, it includes other contribution factors that could have influse my emotions at the end of the day
 
 ## b. Designing an analysis
 
