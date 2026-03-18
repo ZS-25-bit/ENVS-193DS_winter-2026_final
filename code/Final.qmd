@@ -57,7 +57,6 @@ kelp_clean <- kelp |> # creating a new data frame
   summarize(mean_fronds = mean(fronds)) |> # summarize each group down to one row
   ungroup() # group by variables
 
-
 ```
 
 ## b. Understanding the data
@@ -86,3 +85,21 @@ ggplot(data = kelp_clean, # read in data frame from temo_clean
        color = "Site",
        title = "Sites vary in mean kelp fronds per year") 
 ```
+
+## d. Interpretation 
+
+# Problem 3: Data analysis 
+
+## a. Response variable 
+
+## b. Purpose of study 
+
+## c. Table of models 
+
+## d. Run the models 
+
+## e. Select the best model 
+
+## f. Check the diagnostics 
+
+## g. Visualize the model predictions 
