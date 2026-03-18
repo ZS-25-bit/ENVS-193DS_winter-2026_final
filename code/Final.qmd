@@ -17,6 +17,7 @@ library(janitor)
 library(readxl)
 library(MuMIn)
 library(DHARMa)
+library(ggeffects)
 # reading in data 
 kelp <- read_csv(here(
    "data",
@@ -120,8 +121,8 @@ The "distance to prairie dog colony edge" predictor is also a continuous variabl
 mopl_clean <- mopl |> # creating new data frame from mopl
   clean_names() |> #cleaaning names with underscores and no caps
   mutate(used_bin = case_match(id, 
-                               "used" ~ "1",
-                               "available" ~ "0")) |> # creating a new column to create 1s and 0s from the id column
+                               "used" ~ 1,
+                               "available" ~ 0)) |> # creating a new column to create 1s and 0s from the id column
   select(used_bin, edgedist, vo_nest) # selecting columns listed 
 ```
 
@@ -131,25 +132,29 @@ mopl_clean <- mopl |> # creating new data frame from mopl
 #| label: models
 
 #model 0: null model
-model0 <- lm(used_bin ~ 1,
-             data = mopl_clean)
+model0 <- glm(used_bin ~ 1,
+             data = mopl_clean,
+             family = "binomial")
 
 # model 1: all predictors
-model1 <- lm(used_bin ~ edgedist + vo_nest,
-             data = mopl_clean)
+model1 <- glm(used_bin ~ edgedist + vo_nest,
+             data = mopl_clean,
+             family = "binomial")
 
 # model 2: Edge Distance
-model2 <- lm(used_bin ~ edgedist,
-             data = mopl_clean)
+model2 <- glm(used_bin ~ edgedist,
+             data = mopl_clean,
+             family = "binomial")
 
 # model 3: Visual Obstruction at the nest 
-model3 <- lm(used_bin ~ vo_nest,
-             data = mopl_clean)
+model3 <- glm(used_bin ~ vo_nest,
+             data = mopl_clean,
+             family = "binomial")
 
 ```
 
 ```{r}
-#| label: AIC
+#| label: AIC # testing out AIC
 AICc(
   model0,
   model1,
@@ -163,11 +168,15 @@ The best model as determined by Akaike's Information Criterion(AIC) had the visu
 ## f. Check the diagnostics
 
 ```{r}
-plot(simulateResiduals(model3))
-
+dev.off() # reset plotting
+par(mar = c(4, 4, 2, 1)) # change the margins 
+plot(simulateResiduals(model3)) # displaying all the code
 ```
 
 ## g. Visualize the model predictions
+
+```{}
+```
 
 ## h. Write a caption for your figure
 
@@ -178,6 +187,8 @@ plot(simulateResiduals(model3))
 # Problem 4. Affective and exploratory visualizations
 
 ## a. Comparing visualizations
+
+In my original functions for
 
 ## b. Designing an analysis
 
