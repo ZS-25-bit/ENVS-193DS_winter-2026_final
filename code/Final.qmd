@@ -19,6 +19,9 @@ library(readxl)
 kelp <- read_csv(here(
    "data",
     "Annual_Kelp_All_Years_20250903.csv"))
+mopl <- read_csv(here(
+  "data",
+  "MOPL_nest-site_selection_Duchardt_et_al._2019.csv"))
  
 ```
 
@@ -42,6 +45,7 @@ One figure that out coworker could make to accompany the Kruskal-Wallis test is 
 
 ```{r}
 #| label: Clean and summarize data frame
+#| message: false
 kelp_clean <- kelp |> # creating a new data frame
   clean_names() |> #cleaaning names with underscores and no caps
   filter(site %in% c("IVEE", "NAPL", "CARP")) |> #filter to only have those 3 sites
@@ -65,7 +69,6 @@ kelp_clean <- kelp |> # creating a new data frame
 
 ```{r}
 #| label: recreating graph
-#| label: ggplot
 ggplot(data = kelp_clean, # read in data frame from temo_clean
        aes(x = year, # x-axis
            y = mean_fronds,#y-axis 
@@ -86,20 +89,44 @@ ggplot(data = kelp_clean, # read in data frame from temo_clean
        title = "Sites vary in mean kelp fronds per year") 
 ```
 
-## d. Interpretation 
+## d. Interpretation
 
-# Problem 3: Data analysis 
+# Problem 3: Data analysis
 
-## a. Response variable 
+## a. Response variable
 
-## b. Purpose of study 
+In the data set, 1s and 0s represent "yes" or "no" on whether there is a Mountain Plover nest at the site.
 
-## c. Table of models 
+## b. Purpose of study
 
-## d. Run the models 
+The "visual obstruction" predictor is continuous variable because we are measuring a numeric value which is the distance. As visual obstructions increases, the probability of Mountain Plover nest site use would decrease because the Mountain Plover usually breed on open flat fields, with little vegetation. This information can be found in the "Introduction", paragraph 2 of the Mountain Plover subsection.
 
-## e. Select the best model 
+The "distance to prairie dog colony edge" predictor is also a continuous variable since we are measuring a numeric value which is the distance. As distance to prairie dog colony edge increases, the probability of Mountain Plover site use would decrease because the Mountain Plover prefer being near prairie dog colonies since they keep the vegetation low. This information can be found in the "Introduction", paragraph 3 and 4 in the subsection regarding the black-tailed prairie dogs.
 
-## f. Check the diagnostics 
+## c. Table of models
 
-## g. Visualize the model predictions 
+| Model Number | Visual Obstruction | Distance to Prairie Dog Colony | Model Description |
+|----|----|----|----|
+| 0 |  |  | no predictors (null model) |
+| 1 | X | X | Satuarted model |
+| 2 | X |  | Visual Obstruction |
+| 3 |  | X | Distance to Prairie Dog Colony |
+
+## d. Run the models
+
+```{r}
+mopl_clean <- mopl |> 
+  clean_names() |> 
+  mutate(used_bin = case_match(id,
+                               "used" ~ "1",
+                               "available" ~ "0")) |> 
+  select(used_bin,edgedist, vo_nest)
+```
+
+## e. Select the best model
+
+The best model as determined by Akaike's Information Criterion(AIC)
+
+## f. Check the diagnostics
+
+## g. Visualize the model predictions
